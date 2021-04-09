@@ -3,6 +3,9 @@ Daily Grind List
 The "Daily Grind List" puts all of your daily/weekly/monthly and overall goals on an application with a spot to check off those goals. 
 Software: Visual Studio Code 
 Availability: All major phone carriers and devices. 
+
+
+
 Python Code Reference: const checkOutstandingTasks = require('./src/check-outstanding-tasks');
 
 module.exports = (app) => {
