@@ -94,3 +94,6 @@ module.exports = (app) => {
     return context.github.checks.create(context.repo(check));
   });
 };
+
+
+Additonal References: https://github.com/s-young68/github-task-list-completed
