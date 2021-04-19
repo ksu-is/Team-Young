@@ -1,2 +1,3 @@
 write to do list 
-Figure out which code matches my idea best. 
+
+1) Figure out which code matches my idea best. 
