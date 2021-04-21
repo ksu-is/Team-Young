@@ -12,12 +12,12 @@ write to do list DONE
 10) I got the code to run. Now I replace my old java code with the new code on found on me "README"DONE
 11) The new code is now in the "readme" document. DONE
 12) I will now begin to make changes to personalize the code to match my ideas for the project. DONE
-13) The first thing is change the name of the "to-do list" to the name of my project the "daily grind list". I edit the code on lines 14 and line 113.
-14) I then change the window color from white to blue on line 11 of the code. 
-15) On line 49 of the code, I change the code from saying "please enter task" to "Please enter your daily grind" 
-16) On like 68, I have to change the code from displaying "There are {a certain #} tasks left" to "There are {} tasks left in your daily grind. 
-17) On line 77, I change the code from saying "are you sure you want to delete task" to "are you positive you want to delete te this daily grind?" 
-18) On line 100, I change the "are you sure yo want to delete all tasks" to "are you sure you want to delete te your entire daily grind list?" 
-19) On line 128, I change "Number of tasks" to "Number of daily grinds"
-20) On line 143, I change the "Random task" to "random daily grind" 
-21) I then run the code to see how to the code changes have effected my GUI. 
+13) The first thing is change the name of the "to-do list" to the name of my project the "daily grind list". I edit the code on lines 14 and line 113. DONE
+14) I then change the window color from white to blue on line 11 of the code. DONE
+15) On line 49 of the code, I change the code from saying "please enter task" to "Please enter your daily grind" DONE
+16) On like 68, I have to change the code from displaying "There are {a certain #} tasks left" to "There are {} tasks left in your daily grind. DONE
+17) On line 77, I change the code from saying "are you sure you want to delete task" to "are you positive you want to delete te this daily grind?" DONE
+18) On line 100, I change the "are you sure yo want to delete all tasks" to "are you sure you want to delete te your entire daily grind list?" DONE
+19) On line 128, I change "Number of tasks" to "Number of daily grinds"DONE
+20) On line 143, I change the "Random task" to "random daily grind" DONE 
+21) I then run the code to see how to the code changes have effected my GUI. DONE
