@@ -4,173 +4,169 @@ The "Daily Grind List" puts all of your daily/weekly/monthly and overall goals o
 Software: Visual Studio Code 
 Availability: All major phone carriers and devices. 
 
+#from Christian Thompson via youtube
+# Create GUI elements
+import Tkinter
+import tkMessageBox
+import random
 
+#Create root window
+root = Tkinter.Tk()
 
-Python Code Reference: const checkOutstandingTasks = require('./src/check-outstanding-tasks');
+# Change root window bg colour
+root.configure(bg="white")
 
-module.exports = (app) => {
-  app.log('Yay! The app was loaded!');
+# Create title
+root.title("Todo Helper")
 
-  // watch for pull requests & their changes
-  app.on([
-    'pull_request.opened',
-    'pull_request.edited',
-    'pull_request.synchronize',
-    'issue_comment', // for comments on github issues
-    'pull_request_review', // reviews
-    'pull_request_review_comment', // comment lines on diffs for reviews
-  ], async context => {
-    const startTime = (new Date).toISOString();
+# set window size
+root.geometry("350x400")
 
-    // lookup the pr
-    let pr = context.payload.pull_request;
+#Create empty list
+tasks = []
 
-    // check if this is an issue rather than pull event
-    if (context.event == 'issue_comment' && ! pr) {
-      // if so we need to make sure this is for a PR only
-      if (! context.payload.issue.pull_request) {
-        return;
-      }
-      // & lookup the PR it's for to continue
-      let response = await context.github.pulls.get(context.repo({
-        pull_number: context.payload.issue.number
-      }));
-      pr = response.data;
-    }
+#List for testing
+tasks =["music","coding","create invoice", "tax return"]
 
-    let outstandingTasks = checkOutstandingTasks(pr.body);
-
-    // lookup comments on the PR
-    let comments = await context.github.issues.listComments(context.repo({
-      issue_number: pr.number
-    }));
-
-    // as well as review comments
-    let reviewComments = await context.github.pulls.listReviews(context.repo({
-      pull_number: pr.number
-    }));
-    if (reviewComments.data.length) {
-      comments.data = comments.data.concat(reviewComments.data);
-    }
-
-    // and diff level comments on reviews
-    let reviewDiffComments = await context.github.pulls.listComments(context.repo({
-      pull_number: pr.number
-    }));
-    if (reviewDiffComments.data.length) {
-      comments.data = comments.data.concat(reviewDiffComments.data);
-    }
-
-    // & check them for tasks
-    if (comments.data.length) {
-      comments.data.forEach(function (comment) {
-        let commentOutstandingTasks = checkOutstandingTasks(comment.body);
-        outstandingTasks.total += commentOutstandingTasks.total;
-        outstandingTasks.remaining += commentOutstandingTasks.remaining;
-      });
-    }
-
-    let check = {
-      name: 'task-list-completed',
-      head_sha: pr.head.sha,
-      started_at: startTime,
-      status: 'in_progress',
-      output: {
-        title: (outstandingTasks.total - outstandingTasks.remaining) + ' / ' + outstandingTasks.total + ' tasks completed',
-        summary: outstandingTasks.remaining + ' task' + (outstandingTasks.remaining > 1 ? 's' : '') + ' still to be completed',
-        text: 'We check if any task lists need completing before you can merge this PR'
-      }
-    };
-
-    // all finished?
-    if (outstandingTasks.remaining === 0) {
-      check.status = 'completed';
-      check.conclusion = 'success';
-      check.completed_at = (new Date).toISOString();
-      check.output.summary = 'All tasks have been completed';
-    };
-
-    // send check back to GitHub
-    return context.github.checks.create(context.repo(check));
-  });
-};
+# Create functions:
 
 
 
-also:
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <!-- <script type="module" src="../dist/index.js"></script> -->
-  <script type="module" src="https://unpkg.com/@github/task-lists-element@latest"></script>
-  <title>task-lists-element demo</title>
-</head>
-<body>
-  <task-lists sortable>
-    <ul class="contains-task-list">
-      <li class="task-list-item">
-        <label>
-          <input type="checkbox" class="task-list-item-checkbox">
-          Hubot
-        </label>
-      </li>
-      <li class="task-list-item">
-        <label>
-          <input type="checkbox" class="task-list-item-checkbox">
-          Bender
-        </label>
-      </li>
-    </ul>
 
-    <ul>
-      <li>
-        Nested
+def update_listbox():
+    # clear the current listbox
+    clear_listbox()
+    # Populate listbox by appending each task to list
+    for task in tasks:
+        lb_tasks.insert("end", task)
 
-        <ul class="contains-task-list">
-          <li class="task-list-item">
-            <label>
-              <input type="checkbox" class="task-list-item-checkbox">
-              WALL-E
-            </label>
-          </li>
-          <li class="task-list-item">
-            <label>
-              <input type="checkbox" class="task-list-item-checkbox">
-              R2-D2
-            </label>
 
-            <ul class="contains-task-list">
-              <li class="task-list-item">
-                <label>
-                  <input type="checkbox" class="task-list-item-checkbox">
-                  Baymax
-                </label>
-              </li>
-            </ul>
-          </li>
-          <li class="task-list-item">
-            <label>
-              <input type="checkbox" class="task-list-item-checkbox">
-              BB-8
-            </label>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </task-lists>
-  <pre class="events"></pre>
-  <script type="text/javascript">
-    const events = document.querySelector('.events')
-    document.addEventListener('task-lists-check', function(event) {
-      events.append(`task-lists-check - checked: ${event.detail.checked}, position: ${event.detail.position}\n`)
-    })
+def clear_listbox():
+    lb_tasks.delete(0, "end")
 
-    document.addEventListener('task-lists-move', function(event) {
-      events.append(`task-lists-move - from: ${event.detail.src}, to: ${event.detail.dst}\n`)
-    })
-  </script>
-</body>
-</html>
+def add_task(event=None): # "event=None" so that enter key can add task without clicking the button
+    #get user input(prompt)
+    task = txt_input.get()
+    # Ensure user has enetered a task
+    if task !="":
+      tasks.append(task)
+      update_listbox()
+    else:
+        tkMessageBox.showwarning("Note!", "Please enter a task")
+    # Clear the textbox to avoid adding the same task twice accidentally
+    txt_input.delete(0, "end")
 
-Additonal References: https://github.com/s-young68/github-task-list-completed
+root.bind('<Return>', add_task)# bind return key to add_task so that enter key can add task without clicking the button
+
+#.......For later integration with file io etc
+#def select_task():
+#    task = lb_tasks.get("active")
+#    if task in tasks:
+#        lbl_display["text"]=task
+#    else:
+#        tkMessageBox.showwarning("Note!", "Task {} is not in list, Please choose another task".format(task))
+#    update_listbox()
+
+
+
+def num_tasks():
+    num_tasks = len(tasks)
+    msg = "There are {} tasks in the list".format(num_tasks)
+    lbl_display["text"]=msg
+
+def delete_task():
+
+    # Get the text of the currently selected item
+    task = lb_tasks.get("active")
+    # Confirm task is in list
+    if task in tasks:
+        confirm_del = tkMessageBox.askyesno("Confirm Deletion", "Are you sure you want to delete task:   ** {} ** ?".format(task))
+        if confirm_del:# tkmessageBox.askyesno returns boolean
+          tasks.remove(task)
+    update_listbox()
+
+
+def sort_list_up():
+    tasks.sort()
+    update_listbox()
+
+def sort_list_down():
+    tasks.sort()
+    tasks.reverse()
+    update_listbox()
+
+def rand_task():
+    task = random.choice(tasks)
+    # Update display label
+    lbl_display["text"]=task
+
+def delete_all():
+    # As list is being changed, it needs to be global.
+    global tasks
+    confirm_del = tkMessageBox.askyesno("Delete All Confirmation", "Are you sure you want to delete all tasks?")
+    if confirm_del:
+      # Clear the tasks list.
+      tasks = []
+      # Update listbox
+      update_listbox()
+
+def exit():
+    quit()
+
+root.bind('<Return>', add_task)
+
+# Create title in root widget of GUI with white background
+lbl_title = Tkinter.Label(root, text="To-Do-List", bg="white")
+lbl_title.grid(row= 0, column=0 )
+
+lbl_display = Tkinter.Label(root, text="", bg="white")
+lbl_display.grid(row=0 , column=1 )
+
+txt_input = Tkinter.Entry(root, width = 15)
+txt_input.grid(row=1 , column=1 )
+
+btn_add_task = Tkinter.Button(root, text="Add Task", fg="green", bg="white", command=add_task)
+btn_add_task.grid(row= 1, column=0 )
+
+#btn_select_task = Tkinter.Button(root, text="Select Task", fg="green", bg="white", command=select_task)
+#btn_select_task.grid(row= 2, column=0 )
+
+btn_num_tasks = Tkinter.Button(root, text="Number of Tasks", fg="green", bg="white", command=num_tasks)
+btn_num_tasks.grid(row=3 , column= 0)
+
+btn_delete_task = Tkinter.Button(root, text="Delete Task", fg="green", bg="white", command=delete_task)
+btn_delete_task.grid(row=4 , column=0 )
+
+btn_delete_all = Tkinter.Button(root, text="Delete All", fg="green", bg="white", command=delete_all)
+btn_delete_all.grid(row=5 , column= 0)
+
+btn_sort_list_up = Tkinter.Button(root, text="Sort List Ascending", fg="green", bg="white", command=sort_list_up)
+btn_sort_list_up.grid(row=6 , column=0 )
+
+btn_sort_list_down = Tkinter.Button(root, text="Sort List Descending", fg="green", bg="white", command=sort_list_down)
+btn_sort_list_down.grid(row=7 , column=0 )
+
+btn_rand_task = Tkinter.Button(root, text="Random Task", fg="green", bg="white", command=rand_task)
+btn_rand_task.grid(row=8 , column=0 )
+
+
+btn_quit_program = Tkinter.Button(root, text="Exit", fg="green", bg="white", command=exit)
+btn_quit_program.grid(row=9 , column=0 )
+
+lb_tasks = Tkinter.Listbox(root)
+lb_tasks.grid(row=2 , column=1, rowspan=7 )
+
+#Populate listbox at program start for future file io functionality
+def show_listbox():
+    global tasks
+    for task in tasks:
+        lb_tasks.insert("end", task)
+#Populate listbox at program start for future file io functionality
+show_listbox()
+
+# Start the main events loop
+root.mainloop()
+
+
+    
+    
