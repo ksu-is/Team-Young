@@ -14,10 +14,10 @@ import random
 root = Tkinter.Tk()
 
 # Change root window bg colour
-root.configure(bg="white")
+root.configure(bg="blue")
 
 # Create title
-root.title("Todo Helper")
+root.title("Daily Grind List")
 
 # set window size
 root.geometry("350x400")
@@ -52,7 +52,7 @@ def add_task(event=None): # "event=None" so that enter key can add task without 
       tasks.append(task)
       update_listbox()
     else:
-        tkMessageBox.showwarning("Note!", "Please enter a task")
+        tkMessageBox.showwarning("Note!", "Please enter your daily grind")
     # Clear the textbox to avoid adding the same task twice accidentally
     txt_input.delete(0, "end")
 
@@ -71,7 +71,7 @@ root.bind('<Return>', add_task)# bind return key to add_task so that enter key c
 
 def num_tasks():
     num_tasks = len(tasks)
-    msg = "There are {} tasks in the list".format(num_tasks)
+    msg = "There are {} tasks left in your daily grind list".format(num_tasks)
     lbl_display["text"]=msg
 
 def delete_task():
@@ -80,7 +80,7 @@ def delete_task():
     task = lb_tasks.get("active")
     # Confirm task is in list
     if task in tasks:
-        confirm_del = tkMessageBox.askyesno("Confirm Deletion", "Are you sure you want to delete task:   ** {} ** ?".format(task))
+        confirm_del = tkMessageBox.askyesno("Confirm Deletion", "Are you positive you want to delete this daily grind?":   ** {} ** ?".format(task))
         if confirm_del:# tkmessageBox.askyesno returns boolean
           tasks.remove(task)
     update_listbox()
@@ -103,7 +103,7 @@ def rand_task():
 def delete_all():
     # As list is being changed, it needs to be global.
     global tasks
-    confirm_del = tkMessageBox.askyesno("Delete All Confirmation", "Are you sure you want to delete all tasks?")
+    confirm_del = tkMessageBox.askyesno("Delete All Confirmation", "are you sure you want to delete te your entire daily grind list?")
     if confirm_del:
       # Clear the tasks list.
       tasks = []
@@ -116,7 +116,7 @@ def exit():
 root.bind('<Return>', add_task)
 
 # Create title in root widget of GUI with white background
-lbl_title = Tkinter.Label(root, text="To-Do-List", bg="white")
+lbl_title = Tkinter.Label(root, text="Daily Grind List", bg="white")
 lbl_title.grid(row= 0, column=0 )
 
 lbl_display = Tkinter.Label(root, text="", bg="white")
@@ -131,9 +131,7 @@ btn_add_task.grid(row= 1, column=0 )
 #btn_select_task = Tkinter.Button(root, text="Select Task", fg="green", bg="white", command=select_task)
 #btn_select_task.grid(row= 2, column=0 )
 
-
-
-btn_num_tasks = Tkinter.Button(root, text="Number of Tasks", fg="green", bg="white", command=num_tasks)
+btn_num_tasks = Tkinter.Button(root, text="Number of daily grinds", fg="green", bg="white", command=num_tasks)
 btn_num_tasks.grid(row=3 , column= 0)
 
 btn_delete_task = Tkinter.Button(root, text="Delete Task", fg="green", bg="white", command=delete_task)
@@ -148,7 +146,7 @@ btn_sort_list_up.grid(row=6 , column=0 )
 btn_sort_list_down = Tkinter.Button(root, text="Sort List Descending", fg="green", bg="white", command=sort_list_down)
 btn_sort_list_down.grid(row=7 , column=0 )
 
-btn_rand_task = Tkinter.Button(root, text="Random Task", fg="green", bg="white", command=rand_task)
+btn_rand_task = Tkinter.Button(root, text="Random daily grind", fg="green", bg="white", command=rand_task)
 btn_rand_task.grid(row=8 , column=0 )
 
 
