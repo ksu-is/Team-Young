@@ -21,3 +21,4 @@ write to do list DONE
 19) On line 128, I change "Number of tasks" to "Number of daily grinds"DONE
 20) On line 143, I change the "Random task" to "random daily grind" DONE 
 21) I then run the code to see how to the code changes have effected my GUI. DONE
+22) I will now check to see what areas i missed and how i can personlize this code to fit my "daily grind list description" 
